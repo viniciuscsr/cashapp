@@ -21,5 +21,8 @@
     "nodemailer": "^6.4.8",
     "nodemon": "^2.0.4",
     "pg": "^8.2.1"
+  },
+  "devDependencies": {
+    "dotenv": "^8.2.0"
   }
 }

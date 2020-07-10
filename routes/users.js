@@ -15,7 +15,7 @@ router.use(cookieParser());
 //--------------------
 
 router.get('/signup', (req, res) => {
-  res.send('signup form');
+  res.render('users/signup');
 });
 
 router.post(
