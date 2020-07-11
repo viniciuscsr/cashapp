@@ -86,7 +86,7 @@ router.post(
 //--------------------
 
 router.get('/login', csrfProtection, (req, res) => {
-  res.render('login', { csrfToken: req.csrfToken() });
+  res.render('users/login', { csrfToken: req.csrfToken() });
 });
 
 router.post('/login', async (req, res) => {
@@ -112,7 +112,7 @@ router.post('/login', async (req, res) => {
   // adding the user ID to the cookie in the response header
   req.cashAppSession.userId = result.rows[0].id;
 
-  res.redirect('/dashboard/');
+  res.redirect('/money');
 });
 
 //--------------------

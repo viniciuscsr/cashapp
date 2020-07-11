@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const pool = require('./db');
 const sessions = require('client-sessions');
 const users = require('./routes/users');
-const dashboard = require('./routes/money');
+const money = require('./routes/money');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
@@ -48,16 +48,11 @@ app.use((req, res, next) => {
 });
 
 app.get('/', (req, res) => {
-  pool.query('SELECT * FROM users', (err, result) => {
-    if (err) {
-      console.log(err);
-    }
-    res.json(result.rows);
-  });
+  res.render('home');
 });
 
 app.use('/users', users);
-app.use('/dashboard', dashboard);
+app.use('/money', money);
 
 app.listen(3000, (err, res) => {
   console.log('Server is running on port 3000');

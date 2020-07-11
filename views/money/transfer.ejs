@@ -1,0 +1,36 @@
+<%- include("../partials/header") %>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <div class="content">
+        Transfer Money
+      </div>
+    </h2>
+    <form action="/money/transfer" method="POST" class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left input">
+            <input
+              type="text"
+              name="recipient_id"
+              placeholder="Recepient User ID"
+            />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left input">
+            <input type="number" name="amount" placeholder="Amount" />
+          </div>
+        </div>
+        <button class="ui fluid large teal submit button" type="submit">
+          Transfer
+        </button>
+      </div>
+
+      <div class="ui error message"></div>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

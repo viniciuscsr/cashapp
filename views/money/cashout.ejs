@@ -1,0 +1,32 @@
+<%- include("../partials/header") %>
+
+<div class="ui middle aligned center aligned grid">
+  <div class="column">
+    <h2 class="ui teal image header">
+      <div class="content">
+        Withdraw Your Funds
+      </div>
+    </h2>
+    <form action="/money/cashout" method="POST" class="ui large form">
+      <div class="ui stacked segment">
+        <div class="field">
+          <div class="ui left input">
+            <input type="text" name="bank_id" placeholder="Bank ID" />
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui left input">
+            <input type="text" name="amount" placeholder="Amount" />
+          </div>
+        </div>
+        <button class="ui fluid large teal submit button" type="submit">
+          Cash Out
+        </button>
+      </div>
+
+      <div class="ui error message"></div>
+    </form>
+  </div>
+</div>
+
+<%- include("../partials/footer") %>

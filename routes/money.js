@@ -4,6 +4,10 @@ const isLoggedIn = require('../middlewares/index');
 const pool = require('../db');
 const requestMoneyEmail = require('../email/nodemailer');
 
+// -----------------
+// DASHBOARD
+// -----------------
+
 router.get('/', isLoggedIn, async (req, res) => {
   let balance;
   try {
@@ -30,15 +34,15 @@ router.get('/', isLoggedIn, async (req, res) => {
   });
 });
 
-router.get('/secret', isLoggedIn, (req, res) => {
-  res.send('secret page');
-});
-
 // -----------------
 // TRANSFER MONEY TO A USER
 // -----------------
 
-router.post('/send', isLoggedIn, async (req, res) => {
+router.get('/transfer/new', isLoggedIn, (req, res) => {
+  res.render('money/transfer');
+});
+
+router.post('/transfer', isLoggedIn, async (req, res) => {
   const { recipient_id, amount } = req.body;
   const sender_id = req.user.id;
 
@@ -110,6 +114,10 @@ router.post('/send', isLoggedIn, async (req, res) => {
 // REQUEST MONEY FROM A USER
 // -----------------
 
+router.get('/request/new', isLoggedIn, (req, res) => {
+  res.render('money/request');
+});
+
 router.post('/request', isLoggedIn, async (req, res) => {
   const { email, amount } = req.body;
 
@@ -152,6 +160,10 @@ router.post('/request', isLoggedIn, async (req, res) => {
 // -----------------
 // ADD FUNDS
 // -----------------
+
+router.get('/add-funds/new', isLoggedIn, (req, res) => {
+  res.render('money/addFunds');
+});
 
 router.post('/add-funds', isLoggedIn, async (req, res) => {
   const { bank_id, amount } = req.body;
@@ -201,7 +213,11 @@ router.post('/add-funds', isLoggedIn, async (req, res) => {
 // CASH OUT
 // -----------------
 
-router.post('/cash-out', isLoggedIn, async (req, res) => {
+router.get('/cashout/new', isLoggedIn, (req, res) => {
+  res.render('money/cashout');
+});
+
+router.post('/cashout', isLoggedIn, async (req, res) => {
   const { bank_id, amount } = req.body;
   const userId = req.user.id;
 
