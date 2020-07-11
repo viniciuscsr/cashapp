@@ -27,8 +27,9 @@ router.get('/', isLoggedIn, async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+  console.log(transactions.rows);
 
-  res.json({
+  res.render('money/dashboard', {
     balance: balance.rows[0].balance,
     transactions: transactions.rows,
   });
