@@ -63,11 +63,10 @@ router.post(
         'INSERT INTO users(name, email, password) VALUES ($1, $2, $3) RETURNING id',
         [name, email, encryptedPassword]
       );
-      res.json({ message: 'user registered' });
+      res.redirect('/money/');
     } catch (err) {
       console.log(err);
     }
-    console.log(newUser.rows[0].id);
 
     //ADDING NEW USER TO THE BALANCE TABLE
 
