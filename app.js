@@ -54,6 +54,6 @@ app.get('/', (req, res) => {
 app.use('/users', users);
 app.use('/money', money);
 
-app.listen(3000, (err, res) => {
+app.listen(process.env.PORT || 3000, (err, res) => {
   console.log('Server is running on port 3000');
 });
