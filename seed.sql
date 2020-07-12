@@ -1,7 +1,7 @@
 CREATE TABLE users(
 id SERIAL PRIMARY KEY,
 name VARCHAR(50),
-email VARCHAR(50) PRIMARY KEY,
+email VARCHAR(50),
 password VARCHAR(200)
 );
 
@@ -14,12 +14,20 @@ CREATE TABLE transactions(
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     sender_id INT NOT NULL,
     recipient_id INT NOT NULL,
-    amount INT NOT NULL,
+    amount FLOAT(2) NOT NULL
 );
 
 CREATE TABLE balance(
     user_id INT PRIMARY KEY,
     balance INT NOT NULL
+);
+
+CREATE TABLE add_funds(
+    id SERIAL PRIMARY KEY,
+    date DATE NOT NULL DEFAULT CURRENT_DATE,
+    user_id INT NOT NULL,
+    bank_id INT NOT NULL,
+    amount INT NOT NULL
 );
 
 CREATE TABLE cash_out(

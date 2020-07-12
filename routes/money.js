@@ -43,10 +43,18 @@ router.get('/transfer/new', isLoggedIn, (req, res) => {
 });
 
 router.post('/transfer', isLoggedIn, async (req, res) => {
-  let { recipient_id, amount } = req.body;
+  let { email, amount } = req.body;
   const sender_id = req.user.id;
 
   amount = parseFloat(amount);
+
+  // getting recipient user id with the email
+  const recipient_id = await pool.query('SELECT id FROM users WHERE email=$1', [
+    email,
+  ]);
+  if (!recipient_id.rows[0].id) {
+    return res.json('User not Registered');
+  }
 
   // getting current balance and calculating final balance
   const senderCurrentBalance = await pool.query(
