@@ -119,14 +119,13 @@ router.post('/login', async (req, res) => {
 //--------------------
 
 router.get('/logout', (req, res) => {
-  console.log(req.cookies);
-  //   if (req.cookies.cashAppSession) {
-  //     req.cookies.cashAppSession.reset();
-  //     console.log(req.cookies);
-  //     res.redirect('/');
-  //   } else {
-  //     console.log('false');
-  //   }
+  if (req.cookies.cashAppSession) {
+    res.clearCookie('cashAppSession');
+    res.redirect('/');
+  } else {
+    console.log('false');
+    res.redirect('/');
+  }
 });
 
 module.exports = router;

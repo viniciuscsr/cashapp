@@ -19,7 +19,7 @@ app.use(
     cookieName: 'cashAppSession', // cookie name dictates the key name added to the request object
     secret: 'cashAppSecret', // should be a large unguessable string
     duration: 10 * 60 * 1000, // 30 min
-    httpOnly: true, //don't let JS code access cookies
+    httpOnly: false, //don't let JS code access cookies
     // secure: true, // only set cookies over https
     ephemeral: true, // destroy cookies when the browser closes
   })
