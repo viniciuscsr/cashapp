@@ -43,8 +43,10 @@ router.get('/transfer/new', isLoggedIn, (req, res) => {
 });
 
 router.post('/transfer', isLoggedIn, async (req, res) => {
-  const { recipient_id, amount } = req.body;
+  let { recipient_id, amount } = req.body;
   const sender_id = req.user.id;
+
+  amount = parseFloat(amount);
 
   // getting current balance and calculating final balance
   const senderCurrentBalance = await pool.query(
@@ -55,6 +57,8 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
     'SELECT balance FROM balance WHERE user_id=$1',
     [recipient_id]
   );
+
+  console.log(typeof amount);
 
   const senderFinalBalance = senderCurrentBalance.rows[0].balance - amount;
 
@@ -119,7 +123,9 @@ router.get('/request/new', isLoggedIn, (req, res) => {
 });
 
 router.post('/request', isLoggedIn, async (req, res) => {
-  const { email, amount } = req.body;
+  let { email, amount } = req.body;
+
+  amount = parseFloat(amount);
 
   let requesteeData;
   try {
@@ -166,15 +172,26 @@ router.get('/add-funds/new', isLoggedIn, (req, res) => {
 });
 
 router.post('/add-funds', isLoggedIn, async (req, res) => {
-  const { bank_id, amount } = req.body;
+  let { bank_id, amount } = req.body;
   const userId = req.user.id;
+
+  amount = parseFloat(amount);
 
   const userCurrentBalance = await pool.query(
     'SELECT balance FROM balance WHERE user_id=$1',
     [userId]
   );
-
   const userFinalBalance = userCurrentBalance.rows[0].balance + amount;
+
+  console.log('Final Balance');
+  console.log(typeof userFinalBalance);
+  console.log(userFinalBalance);
+  console.log('Current Balance');
+  console.log(typeof userCurrentBalance.rows[0].balance);
+  console.log(userCurrentBalance.rows[0].balance);
+  console.log('Amount');
+  console.log(typeof amount);
+  console.log(amount);
 
   pool.query('BEGIN', (err) => {
     if (err) {
@@ -218,8 +235,10 @@ router.get('/cashout/new', isLoggedIn, (req, res) => {
 });
 
 router.post('/cashout', isLoggedIn, async (req, res) => {
-  const { bank_id, amount } = req.body;
+  let { bank_id, amount } = req.body;
   const userId = req.user.id;
+
+  amount = parseFloat(amount);
 
   const userCurrentBalance = await pool.query(
     'SELECT balance FROM balance WHERE user_id=$1',
