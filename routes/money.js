@@ -52,6 +52,7 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
   const recipient_id = await pool.query('SELECT id FROM users WHERE email=$1', [
     email,
   ]);
+
   if (!recipient_id.rows[0].id) {
     return res.json('User not Registered');
   }
@@ -63,10 +64,8 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
   );
   const recipientCurrentBalance = await pool.query(
     'SELECT balance FROM balance WHERE user_id=$1',
-    [recipient_id]
+    [recipient_id.rows[0].id]
   );
-
-  console.log(typeof amount);
 
   const senderFinalBalance = senderCurrentBalance.rows[0].balance - amount;
 
@@ -86,7 +85,7 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
     // adding transaction to transactions table
     pool.query(
       'INSERT INTO transactions (sender_id, recipient_id, amount) VALUES ($1, $2, $3)',
-      [sender_id, recipient_id, amount],
+      [sender_id, recipient_id.rows[0].id, amount],
       (err) => {
         if (err) {
           console.log(err);
@@ -94,7 +93,7 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
         // adding amount to recipient balance
         pool.query(
           'UPDATE balance SET balance=$1 WHERE user_id=$2',
-          [recipientFinalBalance, recipient_id],
+          [recipientFinalBalance, recipient_id.rows[0].id],
           (err) => {
             if (err) {
               console.log(err);
