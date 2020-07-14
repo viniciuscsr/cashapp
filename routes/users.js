@@ -31,7 +31,7 @@ router.post(
       return res.status(422).json({ errors: errors.array() });
     }
 
-    const { name, email, password } = req.body;
+    const { name, email, password, confirmPassword } = req.body;
 
     // CHECK IF EMAIL IS UNIQUE
 
@@ -43,6 +43,15 @@ router.post(
       if (emailUnique.rows[0]) {
         res.json({ message: 'Email already being used' });
         return;
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    // PASSWORD MATCH
+    try {
+      if (password !== confirmPassword) {
+        return res.json({ message: "Passwords don't match. Please try again" });
       }
     } catch (err) {
       console.log(err);
