@@ -18,6 +18,7 @@ router.get('/', isLoggedIn, async (req, res) => {
     console.log(err);
   }
 
+  // User to user transactions
   let transactions;
   try {
     transactions = await pool.query(
@@ -28,9 +29,33 @@ router.get('/', isLoggedIn, async (req, res) => {
     console.log(err);
   }
 
+  // cashout transactions
+  let cashoutTransactions;
+  try {
+    cashoutTransactions = await pool.query(
+      'SELECT * FROM cash_out WHERE user_id=$1',
+      [req.user.id]
+    );
+  } catch (err) {
+    console.log(err);
+  }
+
+  // add funds transactions
+  let addFundsTransactions;
+  try {
+    addFundsTransactions = await pool.query(
+      'SELECT * FROM add_funds WHERE user_id=$1',
+      [req.user.id]
+    );
+  } catch (err) {
+    console.log(err);
+  }
+
   res.render('money/dashboard', {
     balance: balance.rows[0].balance,
     transactions: transactions.rows,
+    addFundsTransactions: addFundsTransactions.rows,
+    cashoutTransactions: cashoutTransactions.rows,
   });
 });
 
