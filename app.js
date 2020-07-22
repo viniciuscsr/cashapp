@@ -6,11 +6,23 @@ const pool = require('./db');
 const sessions = require('client-sessions');
 const users = require('./routes/users');
 const money = require('./routes/money');
+const flash = require('connect-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
+app.use(
+  session({
+    secret: 'flashSecret',
+    saveUninitialized: true,
+    resave: true,
+  })
+);
+app.use(flash());
 
 // cookie settings for authentication sessions
 app.use(

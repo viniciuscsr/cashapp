@@ -15,7 +15,10 @@ router.use(cookieParser());
 //--------------------
 
 router.get('/signup', (req, res) => {
-  res.render('users/signup');
+  console.log(req.flash('error'));
+  res.render('users/signup', {
+    message: req.flash('error'),
+  });
 });
 
 router.post(
@@ -41,8 +44,8 @@ router.post(
         [email]
       );
       if (emailUnique.rows[0]) {
-        res.json({ message: 'Email already being used' });
-        return;
+        req.flash('error', 'Email already being used');
+        return res.redirect('/users/signup');
       }
     } catch (err) {
       console.log(err);
@@ -51,6 +54,7 @@ router.post(
     // PASSWORD MATCH
     try {
       if (password !== confirmPassword) {
+        req.flash('error', "Passwords don't match. Please try again");
         return res.json({ message: "Passwords don't match. Please try again" });
       }
     } catch (err) {
