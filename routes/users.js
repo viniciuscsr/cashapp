@@ -17,7 +17,7 @@ router.use(cookieParser());
 
 router.get('/signup', (req, res) => {
   res.render('users/signup', {
-    message: req.flash('error')[0],
+    error_message: req.flash('error')[0],
   });
 });
 
@@ -33,7 +33,10 @@ router.post(
 //--------------------
 
 router.get('/login', csrfProtection, (req, res) => {
-  res.render('users/login', { csrfToken: req.csrfToken() });
+  res.render('users/login', {
+    csrfToken: req.csrfToken(),
+    error_message: req.flash('error')[0],
+  });
 });
 
 router.post('/login', userController.login);

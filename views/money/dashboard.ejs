@@ -1,4 +1,11 @@
-<%- include("../partials/header") %>
+<%- include("../partials/header") %> <% if(sucess_message){ %>
+<div class="ui positive message">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= sucess_message %>
+  </div>
+</div>
+<% } %>
 
 <div class="ui sizer vertical segment">
   <div class="ui huge header">Dashboard</div>

@@ -7,6 +7,8 @@ const signup = async (req, res) => {
 
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
+    // console.log(errors.array());
+    // req.flash('error', errors.array());
     return res.status(422).json({ errors: errors.array() });
   }
 
@@ -31,7 +33,7 @@ const signup = async (req, res) => {
   try {
     if (password !== confirmPassword) {
       req.flash('error', "Passwords don't match. Please try again");
-      return res.json({ message: "Passwords don't match. Please try again" });
+      return res.redirect('signup/');
     }
   } catch (err) {
     console.log(err);
@@ -80,13 +82,14 @@ const login = async (req, res) => {
     console.log(err);
   }
 
-  if (
-    !result.rows[0] ||
-    !bcrypt.compareSync(password, result.rows[0].password)
-  ) {
-    return res.json({
-      message: 'Something went wrong. Incorrect email or password',
-    });
+  if (!result.rows[0]) {
+    req.flash('error', 'Email not Found');
+    return res.redirect('/users/login');
+  }
+
+  if (!bcrypt.compareSync(password, result.rows[0].password)) {
+    req.flash('error', 'Wrong Password. Try again.');
+    return res.redirect('/users/login');
   }
 
   // adding the user ID to the cookie in the response header

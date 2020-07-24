@@ -1,4 +1,11 @@
-<%- include("../partials/header") %>
+<%- include("../partials/header") %> <% if(error_message){ %>
+<div class="ui negative message">
+  <i class="close icon"></i>
+  <div class="header">
+    <%= error_message %>
+  </div>
+</div>
+<% } %>
 
 <div class="ui middle aligned center aligned grid">
   <div class="column">

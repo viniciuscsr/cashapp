@@ -56,6 +56,7 @@ router.get('/', isLoggedIn, async (req, res) => {
     transactions: transactions.rows,
     addFundsTransactions: addFundsTransactions.rows,
     cashoutTransactions: cashoutTransactions.rows,
+    sucess_message: req.flash('sucess')[0],
   });
 });
 
@@ -64,7 +65,7 @@ router.get('/', isLoggedIn, async (req, res) => {
 // -----------------
 
 router.get('/transfer/new', isLoggedIn, (req, res) => {
-  res.render('money/transfer');
+  res.render('money/transfer', { error_message: req.flash('error')[0] });
 });
 
 router.post('/transfer', isLoggedIn, async (req, res) => {
@@ -78,8 +79,9 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
     email,
   ]);
 
-  if (!recipient_id.rows[0].id) {
-    return res.json('User not Registered');
+  if (!recipient_id.rows[0]) {
+    req.flash('error', 'User not Registered');
+    return res.redirect('transfer/new');
   }
 
   // getting current balance and calculating final balance
@@ -99,8 +101,8 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
 
   // checking if sender has enough funds
   if (senderFinalBalance < 0) {
-    res.json({ message: 'Sender does not have enough funds' });
-    return;
+    req.flash('error', "You don't have enough funds");
+    return res.redirect('transfer/new');
   }
 
   pool.query('BEGIN', (err) => {
@@ -135,7 +137,8 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
                   if (err) {
                     console.log(err);
                   }
-                  res.json({ message: 'Transfer Completed' });
+                  req.flash('sucess', 'Transfer Completed');
+                  res.redirect('/money/');
                 });
               }
             );
@@ -151,7 +154,7 @@ router.post('/transfer', isLoggedIn, async (req, res) => {
 // -----------------
 
 router.get('/request/new', isLoggedIn, (req, res) => {
-  res.render('money/request');
+  res.render('money/request', { error_message: req.flash('error')[0] });
 });
 
 router.post('/request', isLoggedIn, async (req, res) => {
@@ -166,8 +169,8 @@ router.post('/request', isLoggedIn, async (req, res) => {
     ]);
 
     if (!requesteeData.rows[0]) {
-      res.json({ message: 'User not found' });
-      return;
+      req.flash('error', 'User not Found');
+      return res.redirect('request/new');
     }
   } catch (err) {
     console.log(err);
@@ -189,7 +192,8 @@ router.post('/request', isLoggedIn, async (req, res) => {
       requestorData.rows[0].name,
       amount
     );
-    res.json({ message: 'Request was sent' });
+    req.flash('sucess', "Your request was sent to the user's email");
+    res.redirect('/money/');
   } catch (err) {
     console.log(err);
   }
@@ -215,16 +219,6 @@ router.post('/add-funds', isLoggedIn, async (req, res) => {
   );
   const userFinalBalance = userCurrentBalance.rows[0].balance + amount;
 
-  console.log('Final Balance');
-  console.log(typeof userFinalBalance);
-  console.log(userFinalBalance);
-  console.log('Current Balance');
-  console.log(typeof userCurrentBalance.rows[0].balance);
-  console.log(userCurrentBalance.rows[0].balance);
-  console.log('Amount');
-  console.log(typeof amount);
-  console.log(amount);
-
   pool.query('BEGIN', (err) => {
     if (err) {
       console.log(err);
@@ -249,7 +243,8 @@ router.post('/add-funds', isLoggedIn, async (req, res) => {
               if (err) {
                 console.log(err);
               }
-              res.json({ message: 'Funds Added' });
+              req.flash('sucess', 'Funds added sucessfully');
+              res.redirect('/money/');
             });
           }
         );
@@ -263,7 +258,7 @@ router.post('/add-funds', isLoggedIn, async (req, res) => {
 // -----------------
 
 router.get('/cashout/new', isLoggedIn, (req, res) => {
-  res.render('money/cashout');
+  res.render('money/cashout', { error_message: req.flash('error')[0] });
 });
 
 router.post('/cashout', isLoggedIn, async (req, res) => {
@@ -280,8 +275,8 @@ router.post('/cashout', isLoggedIn, async (req, res) => {
   const userFinalBalance = userCurrentBalance.rows[0].balance - amount;
 
   if (userFinalBalance < 0) {
-    res.json({ message: 'User does not have enough funds' });
-    return;
+    req.flash('error', 'User does not have enough funds');
+    return res.redirect('cashout/new');
   }
 
   pool.query('BEGIN', (err) => {
@@ -308,7 +303,8 @@ router.post('/cashout', isLoggedIn, async (req, res) => {
               if (err) {
                 console.log(err);
               }
-              res.json({ message: 'Cashed Out' });
+              req.flash('sucess', 'Money was withdrawn sucessfully');
+              res.redirect('/money/');
             });
           }
         );
