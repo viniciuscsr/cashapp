@@ -58,14 +58,8 @@ app.use((req, res, next) => {
   );
 });
 
-// app.use(function (req, res, next) {
-//   res.locals.success = req.flash('success');
-//   res.locals.error = req.flash('error');
-//   next();
-// });
-
 app.get('/', (req, res) => {
-  res.render('home');
+  res.render('home', { sucess_message: req.flash('sucess')[0] });
 });
 
 app.use('/users', users);

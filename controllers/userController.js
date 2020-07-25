@@ -98,4 +98,15 @@ const login = async (req, res) => {
   res.redirect('/money');
 };
 
-module.exports = { signup, login };
+const logout = (req, res) => {
+  if (req.cookies.cashAppSession) {
+    res.clearCookie('cashAppSession');
+    req.flash('sucess', 'Logged Out');
+    res.redirect('/');
+  } else {
+    console.log('false');
+    res.redirect('/');
+  }
+};
+
+module.exports = { signup, login, logout };

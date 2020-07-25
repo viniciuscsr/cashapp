@@ -45,14 +45,6 @@ router.post('/login', userController.login);
 //     LOGOUT
 //--------------------
 
-router.get('/logout', (req, res) => {
-  if (req.cookies.cashAppSession) {
-    res.clearCookie('cashAppSession');
-    res.redirect('/');
-  } else {
-    console.log('false');
-    res.redirect('/');
-  }
-});
+router.get('/logout', userController.logout);
 
 module.exports = router;
