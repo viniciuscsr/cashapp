@@ -2,7 +2,17 @@ const { validationResult } = require('express-validator');
 const pool = require('../db');
 const bcrypt = require('bcrypt');
 
-const signup = async (req, res) => {
+//--------------------
+//     SIGNUP
+//--------------------
+
+const getSignup = (req, res) => {
+  res.render('users/signup', {
+    error_message: req.flash('error')[0],
+  });
+};
+
+const postSignup = async (req, res) => {
   // DATA VALIDATION
 
   const errors = validationResult(req);
@@ -32,7 +42,7 @@ const signup = async (req, res) => {
   // PASSWORD MATCH
   try {
     if (password !== confirmPassword) {
-      req.flash('error', "Passwords don't match. Please try again");
+      req.flash('error', 'Passwords must match. Please try again');
       return res.redirect('signup/');
     }
   } catch (err) {
@@ -71,7 +81,18 @@ const signup = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
+//--------------------
+//     LOGIN
+//--------------------
+
+const getLogin = (req, res) => {
+  res.render('users/login', {
+    csrfToken: req.csrfToken(),
+    error_message: req.flash('error')[0],
+  });
+};
+
+const postLogin = async (req, res) => {
   const { email, password } = req.body;
 
   // FINDING EMAIL IN THE DB
@@ -98,6 +119,10 @@ const login = async (req, res) => {
   res.redirect('/money');
 };
 
+//--------------------
+//     LOGOUT
+//--------------------
+
 const logout = (req, res) => {
   if (req.cookies.cashAppSession) {
     res.clearCookie('cashAppSession');
@@ -109,4 +134,4 @@ const logout = (req, res) => {
   }
 };
 
-module.exports = { signup, login, logout };
+module.exports = { getSignup, postSignup, getLogin, postLogin, logout };

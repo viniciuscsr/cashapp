@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const bcrypt = require('bcrypt');
-const pool = require('../db');
 const { check } = require('express-validator');
-const sessions = require('client-sessions');
 const cookieParser = require('cookie-parser');
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: true });
@@ -15,31 +12,23 @@ router.use(cookieParser());
 //     SIGNUP
 //--------------------
 
-router.get('/signup', (req, res) => {
-  res.render('users/signup', {
-    error_message: req.flash('error')[0],
-  });
-});
+router.get('/signup', userController.getSignup);
 
 router.post(
   '/signup',
   check('email').isEmail(),
   check('password').isLength({ min: 6 }),
   check('name').notEmpty(),
-  userController.signup
+  userController.postSignup
 );
+
 //--------------------
 //     LOGIN
 //--------------------
 
-router.get('/login', csrfProtection, (req, res) => {
-  res.render('users/login', {
-    csrfToken: req.csrfToken(),
-    error_message: req.flash('error')[0],
-  });
-});
+router.get('/login', csrfProtection, userController.getLogin);
 
-router.post('/login', userController.login);
+router.post('/login', userController.postLogin);
 
 //--------------------
 //     LOGOUT
