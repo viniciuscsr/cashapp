@@ -1,3 +1,4 @@
+const userController = {};
 const { validationResult } = require('express-validator');
 const pool = require('../db');
 const bcrypt = require('bcrypt');
@@ -6,13 +7,13 @@ const bcrypt = require('bcrypt');
 //     SIGNUP
 //--------------------
 
-const getSignup = (req, res) => {
+userController.getSignup = (req, res) => {
   res.render('users/signup', {
     error_message: req.flash('error')[0],
   });
 };
 
-const postSignup = async (req, res) => {
+userController.postSignup = async (req, res) => {
   // DATA VALIDATION
 
   const errors = validationResult(req);
@@ -85,14 +86,14 @@ const postSignup = async (req, res) => {
 //     LOGIN
 //--------------------
 
-const getLogin = (req, res) => {
+userController.getLogin = (req, res) => {
   res.render('users/login', {
     csrfToken: req.csrfToken(),
     error_message: req.flash('error')[0],
   });
 };
 
-const postLogin = async (req, res) => {
+userController.postLogin = async (req, res) => {
   const { email, password } = req.body;
 
   // FINDING EMAIL IN THE DB
@@ -123,15 +124,15 @@ const postLogin = async (req, res) => {
 //     LOGOUT
 //--------------------
 
-const logout = (req, res) => {
+userController.logout = (req, res) => {
   if (req.cookies.cashAppSession) {
     res.clearCookie('cashAppSession');
     req.flash('sucess', 'Logged Out');
     res.redirect('/');
   } else {
-    console.log('false');
+    req.flash('sucess', 'No user logged in');
     res.redirect('/');
   }
 };
 
-module.exports = { getSignup, postSignup, getLogin, postLogin, logout };
+module.exports = userController;
