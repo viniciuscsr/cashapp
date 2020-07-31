@@ -207,7 +207,7 @@ moneyController.getAddFunds = (req, res) => {
 };
 
 moneyController.postAddFunds = async (req, res) => {
-  let { bank_id, amount } = req.body;
+  let { bank, amount } = req.body;
   const userId = req.user.id;
 
   amount = parseFloat(amount);
@@ -224,8 +224,8 @@ moneyController.postAddFunds = async (req, res) => {
     }
     // add transaction to add_funds table
     pool.query(
-      'INSERT INTO add_funds (user_id, bank_id, amount) VALUES ($1, $2, $3)',
-      [userId, bank_id, amount],
+      'INSERT INTO add_funds (user_id, bank, amount) VALUES ($1, $2, $3)',
+      [userId, bank, amount],
       (err) => {
         if (err) {
           console.log(err);
@@ -261,7 +261,7 @@ moneyController.getCashout = (req, res) => {
 };
 
 moneyController.postCashout = async (req, res) => {
-  let { bank_id, amount } = req.body;
+  let { bank, amount } = req.body;
   const userId = req.user.id;
 
   amount = parseFloat(amount);
@@ -284,8 +284,8 @@ moneyController.postCashout = async (req, res) => {
     }
     // add transaction to the cash_out table
     pool.query(
-      'INSERT INTO cash_out (user_id, bank_id, amount) VALUES ($1, $2, $3)',
-      [userId, bank_id, amount],
+      'INSERT INTO cash_out (user_id, bank, amount) VALUES ($1, $2, $3)',
+      [userId, bank, amount],
       (err) => {
         if (err) {
           console.log(err);

@@ -55,7 +55,7 @@
     <% for (i = 0; i < addFundsTransactions.length; i++) { %>
     <tr>
       <td data-label="Date"><%= addFundsTransactions[i].date %></td>
-      <td data-label="Sender ID"><%= addFundsTransactions[i].bank_id %></td>
+      <td data-label="Sender ID"><%= addFundsTransactions[i].bank %></td>
       <td data-label="Amount"><%= addFundsTransactions[i].amount %></td>
     </tr>
     <% } %>
@@ -78,7 +78,7 @@
     <% for (i = 0; i < cashoutTransactions.length; i++) { %>
     <tr>
       <td data-label="Date"><%= cashoutTransactions[i].date %></td>
-      <td data-label="Sender ID"><%= cashoutTransactions[i].bank_id %></td>
+      <td data-label="Sender ID"><%= cashoutTransactions[i].bank %></td>
       <td data-label="Amount"><%= cashoutTransactions[i].amount %></td>
     </tr>
     <% } %>

@@ -26,7 +26,7 @@ CREATE TABLE add_funds(
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     user_id INT NOT NULL,
-    bank_id INT NOT NULL,
+    bank INT NOT NULL,
     amount INT NOT NULL
 );
 
@@ -34,7 +34,7 @@ CREATE TABLE cash_out(
     id SERIAL PRIMARY KEY,
     date DATE NOT NULL DEFAULT CURRENT_DATE,
     user_id INT NOT NULL,
-    bank_id INT NOT NULL,
+    bank VARCHAR(50) NOT NULL,
     amount INT NOT NULL
 );
 
