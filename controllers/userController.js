@@ -65,6 +65,8 @@ userController.postSignup = async (req, res) => {
       'INSERT INTO users(name, email, password) VALUES ($1, $2, $3) RETURNING id',
       [name, email, encryptedPassword]
     );
+    // adding the user ID to the cookie in the response header
+    req.cashAppSession.userId = newUser.rows[0].id;
     res.redirect('/money/');
   } catch (err) {
     console.log(err);
