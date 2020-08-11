@@ -1,12 +1,87 @@
-<%- include("./partials/header") %> <% if(sucess_message){ %>
-<div class="ui positive message">
-  <i class="close icon"></i>
-  <div class="header">
-    <%= sucess_message %>
-  </div>
-</div>
-<% } %>
+<%- include("./partials/header") %>
 
-<h1>Homepage</h1>
+        <!-- Sucess Message -->
+        <% if(sucess_message){ %>
+        <div class="ui positive message">
+          <i class="close icon"></i>
+          <div class="header">
+            <%= sucess_message %>
+          </div>
+        </div>
+        <% } %>
+        <div class="ui container">
+          <div class="ui inverted vertical masthead center aligned segment">
+            <div class="ui text container">
+              <h1 class="ui inverted header">
+                CashApp Clone
+              </h1>
+              <h2>Send and receive money from anyone</h2>
+              <div class="ui huge primary teal button">
+                Get Started <i class="right arrow icon"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      <div class="ui vertical stripe segment">
+        <div class="ui middle aligned stackable grid container">
+          <div class="row">
+            <div class="eight wide column">
+              <h3 class="ui header">Send</h3>
+              <p>
+                Send money through secure ACID transactions.
+              </p>
+              <h3 class="ui header">Request</h3>
+              <p>
+                Request money and notify through email other registered users.
+              </p>
+              <h3 class="ui header">Add Funds</h3>
+              <p>
+                Add funds from your bank account to make your first P2P transaction.
+              </p>
+              <h3 class="ui header">Cash Out</h3>
+              <p>
+                Withdraw money from your account and send it to your bank.
+              </p>
+            </div>
+            <div class="six wide right floated column">
+              <img
+                src="public/images/bag-of-money.jpg"
+                class="ui large bordered rounded image"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="center aligned column">
+              <a class="ui huge teal button" href="users/login">Get Started</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ui vertical footer segment">
+        <div class="ui container">
+          <div
+            class="ui stackable divided equal height stackable grid"
+          >
+            <div class="three wide column">
+              <h4 class="ui header">About</h4>
+              <div class="ui link list">
+                <a href="#" class="item">How it Works</a>
+                <a href="#" class="item">Contact Us</a>
+                <a href="users/login" class="item">Login</a>
+                <a href="users/signup" class="item">Sign Up</a>
+              </div>
+            </div>
+            <div class="seven wide column">
+              <h4 class="ui header">Footer Header</h4>
+              <p>
+                CashApp Clone is not a licensed provider of money transfer services. All money transmission is provided by Blah Blah Blah Inc.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 <%- include("./partials/footer") %>
